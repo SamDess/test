@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+html.dark {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.main {
+  background-color: #FFD6A5;
+}
+/* fix  */
+
+
+
+.w-fitcontent {
+  width: fit-content;
+}
