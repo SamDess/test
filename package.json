@@ -8,7 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^1.0.6",
     "@next-auth/fauna-adapter": "^1.0.4",
     "airtable-plus": "^1.0.4",
@@ -21,9 +22,9 @@
     "nodemailer": "^6.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.1",
+    "react-hook-form": "^7.43.9",
     "react-hot-toast": "^2.4.0",
-    "react-icons": "^4.7.1",
+    "react-icons": "^4.8.0",
     "react-use-cart": "^1.13.0",
     "swr": "^2.0.3"
   },

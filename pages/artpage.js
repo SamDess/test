@@ -1,91 +1,46 @@
-import useSWR from 'swr'
-import fetcher from '../lib/fetcher'
-import Link from 'next/link';
-import { signIn, useSession, signOut } from 'next-auth/react'
+import useSWR from "swr";
+import fetcher from "../lib/fetcher";
+import Shop from "../components/Shop";
+import ShopCartButton from "../components/ShopCartButton";
 
 export default function Home() {
-  const { data: session, status } = useSession()
-  function renderAuthButton() {
-    return (
-      <div className="min-h-screen container mx-auto px-6 py-12 flex flex-col items-center justify-center">
-        <h1 className="inline-flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
-          <span className="sm:h-16 text-4xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-700 text-center">
-            Bronco Store
-          </span>
-        </h1>
-        <p className="mt-4 text-gray-500 text-xl sm:text-2xl text-center">
-          Please be sure to sign in before shopping!
-        </p>
-        <div className="mt-8">
-          {session?.user ? (
-            <div className="text-lg flex flex-col space-y-1 bg-gray-200 rounded-lg px-6 py-3">
-              <p>
-                Signed in as <strong>{session.user.email}</strong>
-              </p>
-              
-              <button
-              onClick={signOut}
-              className="font-semibold underline opacity-70 hover:opacity-100">
-              Sign Out
-            </button>
-            </div>
-          ) : (
-            <Link href="/api/auth/signin" className="px-6 py-3 rounded-md text-lg text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition">
-              Get started
-            </Link>
-          )}
+  const names = useSWR("/api/crS", fetcher).data;
+  return (
+    <div id="body">
+      <div
+        style={{
+          backgroundImage: "url(https://wallpaperaccess.com/full/658657.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="min-h-screen container mx-auto px-6 py-12 flex flex-col items-center justify-center">
+          <div className="bg-[#F01D7F] bg-opacity-70 border-white border-4 p-24">
+            <h1 className="inline-flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+              <span className="sm:h-16 text-4xl sm:text-6xl font-extrabold  bg-clip-text text-white text-center">
+                Handmade Items
+              </span>
+            </h1>
+            <p className="mt-4 text-white text-xl sm:text-2xl text-center">
+              Welcome to the Handmade Items Online Store!
+            </p>
+          </div>
         </div>
       </div>
-    );
-  }
-    const names = useSWR('/api/all', fetcher).data;
-    return (
-      <div id="body">
-        {/* text-left bg-blue-900 pl-28 text-white row */}
-        <div className=" bg-sky-200 pl-28 text-blue-700 row" style={{ padding: "20px" }}> {/*mainheader */}
-          <span className="text-left">
-            <b>
-            <h1 className="text-3xl ">Bronco Store</h1>
-          </b>
-          </span>
-          <span className="text-right">
-            <a href="/cart"> {/*className="border-black border-t border-b rounded"*/}
-              <b>Cart</b>
-            </a>
-          </span>
-          
-          <div className='styles.authContainer'>
-            {renderAuthButton()}
-          </div>
-          {session && session.user.name}
-          
+      <div className="p-3 font-bold text-center bg-[#cdebfc] rounded-lg border-8 border-[#2191FB] text-black text-lg grid gap-3 grid-cols-2 grid-rows-1">
+        {/*subheader*/}
+        <div className="text-[#0A1045] hover:text-[#FFA500]">
+          <a href="/">Home</a>
         </div>
-        {/* p-5 bg-blue-200 text-center text-white text-base grid gap-4 grid-cols-6 grid-rows-1 */}
-        
-        <div className="p-3 text-center bg-pink-100 text-black text-lg grid gap-3 grid-cols-2 grid-rows-1">{/*subheader*/}
-          <span>
-            <a href="/"> {/* className="border-black border-t border-b rounded" */}
-              <b> Home </b>
-            </a>
-          </span>
-          <span>
-            <a href="/artpage"> {/* className="border-black border-t border-b rounded" */}
-              <b>Handmade</b>
-            </a>
-          </span>
-
-          <div className="col-1" />         
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:flex xl:flex-wrap border-black">  {/*purchase-wrapper*/}
-          {names?.map(({ name, quantity, picture}) => (
-            <div className="bg-white grow h-60 p-5 m-4 border-2">{/*purchase */}
-              {picture ? <img className="h-2/3" src={picture[0].url} /> : ""}
-              <p>{name}</p>
-              <p>{quantity}</p> {/*  className="absolute inset-x-0 bottom-0 h-16 w-16" */}
-            </div>
-          ))}
+        <div className="text-[#0A1045] hover:text-[#FFA500]">
+          <a href="/artpage">Handmade</a>
         </div>
+        <div className="col-1" />
       </div>
-    );
-  }
+      <div>
+        <Shop names={names} />
+        <ShopCartButton />
+      </div>
+    </div>
+  );
+}

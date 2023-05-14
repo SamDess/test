@@ -12,10 +12,7 @@ const airtable = new AirtablePlus({
     }
 })
 
-export default async (req, res) => {
-    const { store } = req.query
-    const data = await airtable.read({
-        filterByFormula: `type = "${store}"`
-    });
+export default async ({ name, quantityOld, quantityRemoved }, res) => {
+    const data = await airtable.updateWhere(`Name = "${name}"`, { quantity: quantityOld-quantityRemoved });
     res.json(data)
 }
