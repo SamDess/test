@@ -5,14 +5,18 @@ import { useState, Fragment } from "react";
 // import { get as fetch } from 'axios'
 
 export default function ShopCartButton() {
-  const { items, updateItemQuantity, removeItem, cartTotal } = useCart();
+  const { items, updateItemQuantity, removeItem, cartTotal, emptyCart } = useCart();
   let [isOpen, setIsOpen] = useState(false);
 
   const { register, handleSubmit } = useForm();
   const onSubmit = async (d) => {
     const asString = new URLSearchParams(d).toString();
     fetch('/api/create?' + asString + '&total=' + items.reduce((a, { price, quantity }) => a + price * quantity, 0) + '&order=' + items.map(({ name, quantity }) => `${name}: ${quantity}`).join(', '))
-    .then(r => alert("Order placed!"));
+    .then(r => 
+    {alert("Order placed!")
+    emptyCart();
+    setIsOpen(false);
+  });
   }
 
   return (
@@ -55,7 +59,7 @@ export default function ShopCartButton() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[75%] transform rounded-2xl bg-white text-black p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[92%] lg:max-w-[75%]  transform rounded-2xl bg-white text-black p-6 text-left align-middle shadow-xl transition-all">
                 <section>
   <h1 className="sr-only">Checkout</h1>
 
@@ -199,7 +203,7 @@ export default function ShopCartButton() {
           <div className="col-span-6">
             <input
               type="submit"
-              className="block w-full rounded-md bg-black p-2.5 text-sm text-white transition hover:shadow-lg"
+              className="block w-full rounded-md bg-black p-2.5 text-sm text-white transition hover:shadow-lg hover:bg-gray-500"
               value="Order Now"
             />
           </div>
