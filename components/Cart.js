@@ -1,3 +1,5 @@
+import { useCart } from "react-use-cart";
+
 export default function Cart() {
     const {
       isEmpty,
