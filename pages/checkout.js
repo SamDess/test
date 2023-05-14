@@ -1,93 +1,236 @@
 import { useCart } from "react-use-cart";
-import { useForm } from "react-hook-form";
 
-export default function Checklist() {
-  const { items, updateItemQuantity, removeItem,  } = useCart();
-  const { register, handleSubmit } = useForm();
-  const onSubmit = async (d) => {
-    fetch('/api/create?name=' + d.name)
-    .then(r => alert(r.data));
+export default function Checkout() {
+  const { items, updateItemQuantity, removeItem, cartTotal } = useCart(); // useCart hook
+
+  const onSubmit = async (d) => { // onSubmit func
+    fetch('/api/create?name=' + d.name) // this sends data to the create-record func
+    .then(r => alert(r.data)); // alerts data in browser.alert()
   }
-  let total = items.reduce((a, { price, quantity }) => a + price * quantity, 0);
-  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
-    <label htmlFor="name"> s number (required)</label>
-    <input className="bg-gray-200 border-b-2 border-gray-400 focus-within:outline-none focus-within:border-gray-600" type="text" id="name" placeholder="Orpheus Haxx" {...register("name", { required: true })} />
-    <input type="submit" className="bg-blue-500 text-white py-2 hover:bg-blue-600 rounded-xl font-bold" value="Submit"/>
-  </form>
 
   return (
-    <div style={{
-      backgroundImage:"url(https://images.pexels.com/photos/2832767/pexels-photo-2832767.jpeg?cs=srgb&dl=pexels-magda-ehlers-2832767.jpg&fm=jpg)",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-    }}>
-    <div className="bg-sky-400 bg-opacity-30">
-      <p className="flex justify-center text-4xl pt-1.5 text-[#FFE5D4]">Checkout</p>
-    <div className="grid grid-cols-3 p-12 ">
-      <div className="col-span-1 px-2">
-        {items.map((item) => (
-          <ul className="list-none">
-          <li key={item.id}>
-            <div className="flex flex-col items-start border-4 border-[#8338EC] bg-white">
-            {item.picture ? (
-              <img className="h-32" src={item.picture[0].url} />
-            ) : (
-              ""
-            )}
-            {item.quantity} x {item.name}
-            {item.creator ? (
-              <p className="rounded-full border border-2 ">
-                Created by {item.creator}
-              </p>
-            ) : (
-              ""
-            )}
-            {item.email ? (
-              <p>If you have questions, contact them at @{item.email}</p>
-            ) : (
-              ""
-            )}
-            <div className="grid grid-cols-4">
-            <div className="">
-            qt: {item.quantity}
+    <section>
+    <h1 className="sr-only">Checkout</h1>
+  
+    <div className="mx-auto grid max-w-screen-2xl grid-cols-1 md:grid-cols-2">
+      <div className="bg-gray-50 py-12 md:py-24">
+        <div className="mx-auto max-w-lg space-y-8 px-4 lg:px-8">
+          <div className="flex items-center gap-4">
+            <span className="h-10 w-10 rounded-full bg-blue-700"></span>
+  
+            <h2 className="font-medium text-gray-900">Bronco Store</h2>
+          </div>
+  
+          <div>
+            <p className="text-2xl font-medium tracking-tight text-gray-900">
+              $99.99
+            </p>
+  
+            <p className="mt-1 text-sm text-gray-600">For the purchase of</p>
+          </div>
+  
+          <div>
+            <div className="flow-root">
+              <ul className="-my-4 divide-y divide-gray-100">
+                <li className="flex items-center gap-4 py-4">
+                  <img
+                    src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
+                    alt=""
+                    className="h-16 w-16 rounded object-cover"
+                  />
+  
+                  <div>
+                    <h3 className="text-sm text-gray-900">Basic Tee 6-Pack</h3>
+  
+                    <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                      <div>
+                        <dt className="inline">Size:</dt>
+                        <dd className="inline">XXS</dd>
+                      </div>
+  
+                      <div>
+                        <dt className="inline">Color:</dt>
+                        <dd className="inline">White</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </li>
+  
+                <li className="flex items-center gap-4 py-4">
+                  <img
+                    src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
+                    alt=""
+                    className="h-16 w-16 rounded object-cover"
+                  />
+  
+                  <div>
+                    <h3 className="text-sm text-gray-900">Basic Tee 6-Pack</h3>
+  
+                    <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                      <div>
+                        <dt className="inline">Size:</dt>
+                        <dd className="inline">XXS</dd>
+                      </div>
+  
+                      <div>
+                        <dt className="inline">Color:</dt>
+                        <dd className="inline">White</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <button
-              onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-            >
-              -
-            </button>
-            <button
-              onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
-            >
-              +
-            </button>
-            <button onClick={() => removeItem(item.id)}>&times;</button>
+          </div>
+        </div>
+      </div>
+  
+      <div className="bg-white py-12 md:py-24">
+        <div className="mx-auto max-w-lg px-4 lg:px-8">
+          <form className="grid grid-cols-6 gap-4">
+            <div className="col-span-3">
+              <label
+                htmlFor="FirstName"
+                className="block text-xs font-medium text-gray-700"
+              >
+                First Name
+              </label>
+  
+              <input
+                type="text"
+                id="FirstName"
+                className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+              />
             </div>
+  
+            <div className="col-span-3">
+              <label
+                htmlFor="LastName"
+                className="block text-xs font-medium text-gray-700"
+              >
+                Last Name
+              </label>
+  
+              <input
+                type="text"
+                id="LastName"
+                className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+              />
             </div>
-          </li>
-          </ul>
-        ))}
+  
+            <div className="col-span-6">
+              <label htmlFor="Email" className="block text-xs font-medium text-gray-700">
+                Email
+              </label>
+  
+              <input
+                type="email"
+                id="Email"
+                className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+              />
+            </div>
+  
+            <div className="col-span-6">
+              <label htmlFor="Phone" className="block text-xs font-medium text-gray-700">
+                Phone
+              </label>
+  
+              <input
+                type="tel"
+                id="Phone"
+                className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+              />
+            </div>
+  
+            <fieldset className="col-span-6">
+              <legend className="block text-sm font-medium text-gray-700">
+                Card Details
+              </legend>
+  
+              <div className="mt-1 -space-y-px rounded-md bg-white shadow-sm">
+                <div>
+                  <label htmlFor="CardNumber" className="sr-only"> Card Number </label>
+  
+                  <input
+                    type="text"
+                    id="CardNumber"
+                    placeholder="Card Number"
+                    className="relative mt-1 w-full rounded-t-md border-gray-200 focus:z-10 sm:text-sm"
+                  />
+                </div>
+  
+                <div className="flex">
+                  <div className="flex-1">
+                    <label htmlFor="CardExpiry" className="sr-only"> Card Expiry </label>
+  
+                    <input
+                      type="text"
+                      id="CardExpiry"
+                      placeholder="Expiry Date"
+                      className="relative w-full rounded-es-md border-gray-200 focus:z-10 sm:text-sm"
+                    />
+                  </div>
+  
+                  <div className="-ms-px flex-1">
+                    <label htmlFor="CardCVC" className="sr-only"> Card CVC </label>
+  
+                    <input
+                      type="text"
+                      id="CardCVC"
+                      placeholder="CVC"
+                      className="relative w-full rounded-ee-md border-gray-200 focus:z-10 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+  
+            <fieldset className="col-span-6">
+              <legend className="block text-sm font-medium text-gray-700">
+                Billing Address
+              </legend>
+  
+              <div className="mt-1 -space-y-px rounded-md bg-white shadow-sm">
+                <div>
+                  <label htmlFor="Country" className="sr-only">Country</label>
+  
+                  <select
+                    id="Country"
+                    className="relative w-full rounded-t-md border-gray-200 focus:z-10 sm:text-sm"
+                  >
+                    <option>England</option>
+                    <option>Wales</option>
+                    <option>Scotland</option>
+                    <option>France</option>
+                    <option>Belgium</option>
+                    <option>Japan</option>
+                  </select>
+                </div>
+  
+                <div>
+                  <label className="sr-only" htmlFor="PostalCode"> ZIP/Post Code </label>
+  
+                  <input
+                    type="text"
+                    id="PostalCode"
+                    placeholder="ZIP/Post Code"
+                    className="relative w-full rounded-b-md border-gray-200 focus:z-10 sm:text-sm"
+                  />
+                </div>
+              </div>
+            </fieldset>
+  
+            <div className="col-span-6">
+              <button
+                className="block w-full rounded-md bg-black p-2.5 text-sm text-white transition hover:shadow-lg"
+              >
+                Pay Now
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div className="col-span-1"/>
-
-      <div className="flex col-span-1 p-12 ">
-        <div className="min-h-screen container mx-auto justify-center px-12 py-16 ">
-        <ul className="px-12 py-6 list-none bg-[#FFE5D4]">
-          {items.map((item) => (
-            <li key={item.id}>${item.quantity * item.price}</li>
-          ))}
-          Total = ${total}
-        </ul>
-      </div>
-    </div>      
-      <a
-        href="/"
-        className="rounded-full fixed bg-[#FFE5D4] text-[#262626] bottom-2 right-2"
-      >
-        Go Back
-      </a>    
-      </div>
-      </div>
-      </div>
+    </div>
+  </section>
   );
 }

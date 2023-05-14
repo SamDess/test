@@ -16,10 +16,7 @@ html.dark {
 .main {
   background-color: #FFD6A5;
 }
-/* fix  */
 
+/* Fixes Safari Blue/Default Focus Outline */
 
-
-.w-fitcontent {
-  width: fit-content;
-}
+input:focus { outline: none; }
